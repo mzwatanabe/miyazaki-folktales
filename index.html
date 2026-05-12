@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<title>宮崎県民話データベース</title>
+
+<link rel="stylesheet"
+href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+</head>
+
+<body>
+
+<h1>宮崎県民話データベース</h1>
+
+<table id="folktable" class="display">
+
+<thead>
+<tr>
+<th>タイトル</th>
+<th>市町村</th>
+<th>分類</th>
+<th>キーワード</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+
+</table>
+
+<script>
+
+Papa.parse("data/folktales.csv", {
+
+download: true,
+header: true,
+
+complete: function(results) {
+
+let rows = "";
+
+results.data.forEach(function(row) {
+
+rows += `
+<tr>
+<td>${row.title}</td>
+<td>${row.municipality}</td>
+<td>${row.category}</td>
+<td>${row.keywords}</td>
+</tr>
+`;
+
+});
+
+$("#folktable tbody").html(rows);
+
+$('#folktable').DataTable({
+
+pageLength: 25,
+
+language: {
+url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/ja.json'
+}
+
+});
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
